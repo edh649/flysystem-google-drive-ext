@@ -267,7 +267,10 @@ class GoogleDriveAdapter implements FilesystemAdapter
         $this->useDisplayPaths = $this->options['useDisplayPaths'];
         $this->showDisplayPaths = $this->options['showDisplayPaths'];
         $this->optParams = $this->cleanOptParameters($this->options['parameters']);
-        $this->cachedPaths = $this->options['cachedPaths'] ?? [];
+        $this->cachedPaths = $this->options['caches']['cachedPaths'] ?? [];
+        $this->requestedIds = $this->options['caches']['requestedIds'] ?? [];
+        $this->cacheFileObjects = $this->options['caches']['cacheFileObjects'] ?? [];
+        $this->cacheHasDirs = $this->options['caches']['cacheHasDirs'] ?? [];
 
         if ($root !== null) {
             $root = trim($root, '/');
@@ -338,9 +341,14 @@ class GoogleDriveAdapter implements FilesystemAdapter
      *
      * @return array
      */
-    public function getCachedPaths(): array
+    public function getCaches(): array
     {
-        return $this->cachedPaths;
+        return [
+            'cachedPaths' => $this->cachedPaths,
+            'requestedIds' => $this->requestedIds,
+            'cacheFileObjects' => $this->cacheFileObjects,
+            'cacheHasDirs' => $this->cacheHasDirs,
+        ];
     }
 
     /**
